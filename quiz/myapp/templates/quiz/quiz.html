@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz Questions</h1>
+    <form method="post" action="{% url 'submit_quiz' %}">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div>
+                <p>{{ forloop.counter }}. {{ question.question_text|linebreaksbr }}</p>
+                {% for choice in question.answers.all %}
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
+                        {{ choice.text }}
+                    </label><br>
+                {% empty %}
+                    <p>No answer choices available for this question.</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
