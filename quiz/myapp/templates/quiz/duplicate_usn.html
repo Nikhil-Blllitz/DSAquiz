@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate USN</title>
+</head>
+<body>
+    <h1>Error: Duplicate USN</h1>
+    <p>The USN "{{ usn }}" has already been used to submit a quiz result. Please use a different USN.</p>
+    <a href="{% url 'home' %}">Go Back</a>
+</body>
+</html>

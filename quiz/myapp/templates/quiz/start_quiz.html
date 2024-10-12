@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Quiz</title>
+</head>
+<body>
+    <h1>Start the Quiz</h1>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="usn">USN:</label>
+        <input type="text" id="usn" name="usn" required><br>
+
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required><br>
+
+        <label for="college_email">College Email:</label>
+        <input type="email" id="college_email" name="college_email" required><br>
+
+        <button type="submit">Start Quiz</button>
+    </form>
+</body>
+</html>

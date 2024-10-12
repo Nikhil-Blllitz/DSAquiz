@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Question, Answer
+from .models import Question, Answer, QuizResult
 
 class AnswerInline(admin.TabularInline):
     model = Answer
-    extra = 4 
+    extra = 4
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text',)
@@ -16,3 +16,4 @@ class QuestionAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(QuizResult)  # Register the QuizResult model

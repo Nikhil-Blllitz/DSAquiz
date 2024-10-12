@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
+    <script>
+        let hasLostFocus = false;
+
+        // Event listener for when the window loses focus
+        window.onblur = function() {
+            hasLostFocus = true;
+        };
+
+        // Event listener for when the window gains focus
+        window.onfocus = function() {
+            hasLostFocus = false;
+        };
+
+        // Periodically check if the tab has lost focus
+        setInterval(function() {
+            if (hasLostFocus) {
+                // Submit the quiz with an invalid result
+                document.getElementById("quiz-form").submit();
+            }
+        }, 1000);  // Check every second
+    </script>
 </head>
 <body>
     <h1>Quiz Questions</h1>
-    <form method="post" action="{% url 'submit_quiz' %}">
+    <form method="post" action="{% url 'submit_quiz' %}" id="quiz-form">
         {% csrf_token %}
         {% for question in questions %}
             <div>
