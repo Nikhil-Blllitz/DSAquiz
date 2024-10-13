@@ -1,13 +1,23 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/duplicate.css' %}">
     <title>Duplicate USN</title>
 </head>
 <body>
-    <h1>Error: Duplicate USN</h1>
-    <p>The USN "{{ usn }}" has already been used to submit a quiz result. Please use a different USN.</p>
-    <a href="{% url 'home' %}">Go Back</a>
+    <div id="border">
+        <section class="section">
+            <h1>\<ERROR\></ERROR> : DUPLICATE USN</h1>
+            <div id="page1">
+                <p>The USN "{{ usn }}" has already been used to submit a quiz result. Please use a different USN.</p>
+            </div>
+                <a href="{% url 'home' %}"><button>Go Back</button> 
+                </a>
+        </section>
+    </div>
 </body>
 </html>

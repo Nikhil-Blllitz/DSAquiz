@@ -17,6 +17,7 @@ class Answer(models.Model):
 class QuizResult(models.Model):
     name = models.CharField(max_length=100)  # Store the user's name
     usn = models.CharField(max_length=20, unique=True)  # Add USN field
+    time_taken = models.IntegerField(default=0)
     department = models.CharField(max_length=100)  # Add Department field
     college_email = models.EmailField(max_length=255)  # Add College Mail ID field
     score = models.IntegerField()
@@ -24,3 +25,11 @@ class QuizResult(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.score} on {self.created_at}"
+
+class Attempt(models.Model):
+    quiz_result = models.ForeignKey(QuizResult, related_name='attempts', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.quiz_result.name} - {self.question.question_text}: {self.selected_answer.text}"

@@ -1,49 +1,115 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
-    <script>
-        let hasLostFocus = false;
-
-        // Event listener for when the window loses focus
-        window.onblur = function() {
-            hasLostFocus = true;
-        };
-
-        // Event listener for when the window gains focus
-        window.onfocus = function() {
-            hasLostFocus = false;
-        };
-
-        // Periodically check if the tab has lost focus
-        setInterval(function() {
-            if (hasLostFocus) {
-                // Submit the quiz with an invalid result
-                document.getElementById("quiz-form").submit();
-            }
-        }, 1000);  // Check every second
-    </script>
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
 </head>
 <body>
-    <h1>Quiz Questions</h1>
-    <form method="post" action="{% url 'submit_quiz' %}" id="quiz-form">
-        {% csrf_token %}
-        {% for question in questions %}
-            <div>
-                <p>{{ forloop.counter }}. {{ question.question_text|linebreaksbr }}</p>
-                {% for choice in question.answers.all %}
-                    <label>
-                        <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
-                        {{ choice.text }}
-                    </label><br>
-                {% empty %}
+    
+    <section class="section">
+        <h1 class="heading">QUIZ QUESTIONS</h1>
+        <div id="timer">Time Left: 10:00</div> <!-- Timer Display -->
+        <form method="post" action="{% url 'submit_quiz' %}" id="quiz-form">
+            {% csrf_token %}
+            <input type="hidden" name="time_taken" id="time_taken" value="0"> <!-- Hidden input for time taken -->
+            <div class="question-container">
+                {% for question in questions %}
+                <div class="bhai">
+                    <p>{{ forloop.counter }}. {{ question.question_text|linebreaksbr }}</p>
+                    {% for choice in question.answers.all %}
+                    <div class="question-box" data-question-id="{{ question.id }}" data-choice-id="{{ choice.id }}">
+                        <span>{{ choice.text }}</span>
+                    </div>
+                    {% empty %}
                     <p>No answer choices available for this question.</p>
+                    {% endfor %}
+                </div>
+                <br>
                 {% endfor %}
             </div>
-        {% endfor %}
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit" id="myButton" class="button">
+                <div class="uiverse">
+                    <span class="tooltip">Yes, I'm sure</span>
+                    <span> SUBMIT </span>
+                </div>
+            </button>              
+        </form>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionBoxes = document.querySelectorAll('.question-box');
+            let timeLeft = 600; // Timer set to 10 minutes (600 seconds)
+            const timerDisplay = document.getElementById('timer');
+            const timeTakenInput = document.getElementById('time_taken'); // Reference to the hidden input
+    
+            // Timer function
+            function updateTimer() {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Set time taken to the maximum time (600 seconds) if time runs out
+                    timeTakenInput.value = 600; 
+                    document.getElementById('quiz-form').submit(); // Auto-submit the quiz
+                } else {
+                    timerDisplay.textContent = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                    timeLeft--;
+                }
+            }
+    
+            const timerInterval = setInterval(updateTimer, 1000); // Update timer every second
+
+            questionBoxes.forEach(box => {
+                box.addEventListener('click', () => {
+                    // Deselect all question boxes in this question
+                    const parent = box.closest('.bhai');
+                    parent.querySelectorAll('.question-box').forEach(q => q.classList.remove('selected'));
+                    
+                    // Select the clicked question box
+                    box.classList.add('selected');
+
+                    // Store the selected value in a hidden input for form submission
+                    const questionId = box.getAttribute('data-question-id');
+                    const choiceId = box.getAttribute('data-choice-id');
+
+                    // Create or update hidden input for this question
+                    let input = parent.querySelector(`input[name="question-${questionId}"]`);
+                    if (!input) {
+                        input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = `question-${questionId}`;
+                        parent.appendChild(input);
+                    }
+                    input.value = choiceId;
+                });
+            });
+    
+            // Set time taken value before submitting the form
+            document.getElementById('quiz-form').addEventListener('submit', () => {
+                const totalTimeTaken = 600 - timeLeft; // Calculate total time taken
+                timeTakenInput.value = totalTimeTaken; // Store time taken in the hidden input
+            });
+
+            // Handle tab switching
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    clearInterval(timerInterval); // Stop the timer
+                    timeTakenInput.value = 600; // Set time taken to maximum time (600 seconds)
+                    
+                    // Create a hidden input to submit a score of 0
+                    let scoreInput = document.createElement('input');
+                    scoreInput.type = 'hidden';
+                    scoreInput.name = 'score';
+                    scoreInput.value = '0';
+                    document.getElementById('quiz-form').appendChild(scoreInput);
+                    
+                    document.getElementById('quiz-form').submit(); // Auto-submit the quiz
+                }
+            });
+        });
+    </script>    
 </body>
 </html>

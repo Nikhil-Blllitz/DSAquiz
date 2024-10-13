@@ -1,0 +1,472 @@
+@font-face {
+    font-family: NHD;
+    src: url(./NeueHaasDisplayBold.ttf);
+}
+@font-face {
+    font-family: karan;
+    src: url(./Karantina-Regular.ttf);
+}
+@font-face {
+    font-family: inder;
+    src: url(./Inder-Regular.ttf);
+}
+
+body {
+    color: #333;
+    background-image: url('./DSA1.jpg'); /* Add your background image */
+    background-size: cover; /* Ensure the background covers the whole screen */
+    min-height: 100vh; /* Ensure full height */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Center items vertically */
+    gap: 10px;
+    font-family: "inder";
+    font-size: 14px;
+    line-height: 20px;
+    overflow: visible;
+}
+
+.section {
+    background-color: #4764ce3e;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 95vw;
+    max-width: 95vw;
+    height: 70vh;
+    max-height: 70vh;
+    padding: 10px;
+    display: flex;
+    gap: 50px;
+}
+
+h1 {
+    display: block;
+
+    top: 0;
+    color: #838383;
+    font-family: "karan"; /* Use your font */
+    font-size: 6rem; /* Adjust font size as needed */
+    margin-bottom: 20px; /* Space below heading */
+    letter-spacing: 2px;
+}
+
+.section .form-container
+{
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+}
+
+form {
+    margin-top: 20px;
+    background-color: rgba(77, 147, 218, 0.216); 
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: none;
+    max-width: auto;
+    height: none;
+    max-height: auto;
+    margin: 20px 30px 20px 30px;
+    display: grid;
+    justify-content: center;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: "inder"; 
+}
+
+
+label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+    font-family: "inder";
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+/*button[type="submit"] {
+    background-color: #ad0b49;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 4px 4px #ad0b49;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #a30c39;
+    box-shadow: none;
+}*/
+
+
+
+/* Form Container */
+.form-container {
+    width: 70vw; /* Adjust width for responsiveness */
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Questions and Answers */
+.form-group {
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: "inder"; /* Using custom font */
+}
+
+/* Radio buttons */
+label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+    font-family: "inder";
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Submit button 
+.form-submit-btn {
+    background-color: #ad0b49;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 4px 4px #ad0b49;
+    transition: background-color 0.3s ease;
+}
+
+.form-submit-btn:hover {
+    background-color: #a30c39;
+    box-shadow: none;
+}
+*/
+/* Additional Styles */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .form-submit-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* From Uiverse.io by mrhyddenn */ 
+.uiverse {
+
+    position: relative;
+    background: #50c1e34e;
+    color: #000;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    width: 500px;
+    height: 25px;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: 0;
+    font-size: 14px;
+    font-family: "karan";
+    background: #ffffff;
+    color: #ffffff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .tooltip::before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    background: #ffffff;
+    bottom: -3px;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .uiverse:hover .tooltip {
+    top: -45px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  svg:hover span,
+  svg:hover .tooltip {
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .uiverse:hover,
+  .uiverse:hover .tooltip,
+  .uiverse:hover .tooltip::before {
+    background: linear-gradient(320deg, rgb(3, 77, 146), rgb(77, 107, 203));
+    color: #ffffff;
+  }
+
+  /* From Uiverse.io by vishnupprajapat */ 
+.checkbox-wrapper-46 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+  
+  .checkbox-wrapper-46 .cbx {
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-46 .cbx span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-46 .cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #9098a9;
+    transition: all 0.2s ease;
+  }
+  .checkbox-wrapper-46 .cbx span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-46 .cbx span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #506eec;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+  }
+  .checkbox-wrapper-46 .cbx span:last-child {
+    padding-left: 8px;
+  }
+  .checkbox-wrapper-46 .cbx:hover span:first-child {
+    border-color: #506eec;
+  }
+  
+  .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
+    background: #506eec;
+    border-color: #506eec;
+    animation: wave-46 0.4s ease;
+  }
+  .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+  }
+  .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child:before {
+    transform: scale(3.5);
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+  
+  @keyframes wave-46 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+  
+  #myButton {
+    background-color: #00000000;
+  
+  }
+
+.button {
+    background-color: #00000000;
+    border-width: 0px;
+}
+
+/* Hide default radio buttons */
+.checkbox-wrapper-46 input[type="radio"] {
+  display: none; /* Hide the radio buttons */
+}
+
+/* Custom radio button styles */
+.checkbox-wrapper-46 .cbx {
+  margin: auto;
+  cursor: pointer;
+}
+
+.checkbox-wrapper-46 .cbx span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.checkbox-wrapper-46 .cbx span:first-child {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #9098a9;
+  transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-46 .cbx span:last-child {
+  padding-left: 8px;
+}
+
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
+  background: #506eec; /* Change background on checked */
+  border-color: #506eec; /* Change border color */
+}
+
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0; /* Show checkmark */
+}
+
+body {
+    color: #333;
+    background-image: url('./DSA1.jpg'); /* Add your background image */
+    background-size: cover; /* Ensure the background covers the whole screen */
+    min-height: 100vh; /* Ensure full height */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    font-family: "inder";
+    font-size: 14px;
+    line-height: 20px;
+    overflow: visible;
+}
+
+.section {
+    background-color: transparent; /* Set background color to white with some transparency */
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 90vw; /* Increased width */
+    max-width: 900px; /* Set max width */
+    height: auto; /* Set height to auto for flexibility */
+    max-height: auto; /* Set max height to auto for flexibility */
+    padding: 20px; /* Increase padding for a better layout */
+    display: flex;
+    gap: 20px; /* Adjust gap for better spacing */
+}
+
+.submit-button {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.uiverse {
+  position: relative;
+  display: inline-block;
+}
+
+.question-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 70vw;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.question-box {
+  border: 1px solid transparent; /* No border by default */
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.question-box:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Highlight on hover */
+}
+
+.question-box.selected {
+  border: 2px solid #506eec; /* Highlight border when selected */
+  background-color: rgba(80, 110, 236, 0.1); /* Highlight background when selected */
+}
+
+#timer {
+  font-size: 24px;
+  margin-bottom: 20px;
+}

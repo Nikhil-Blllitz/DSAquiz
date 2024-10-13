@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Question, QuizResult
+from .models import Question, QuizResult, Attempt
 from django.db import IntegrityError
 
 def start_quiz(request):
@@ -21,27 +21,54 @@ def start_quiz(request):
         return redirect('quiz')  # Redirect to the quiz view
 
     return render(request, 'quiz/start_quiz.html')  # Render the start quiz form
+
+
 def quiz_view(request):
     questions = Question.objects.order_by('?')[:10].prefetch_related('answers')
+    request.session['quiz_questions'] = [q.id for q in questions]  # Store question IDs in session
     return render(request, 'quiz/quiz.html', {'questions': questions})
+
 
 def submit_quiz(request):
     if request.method == 'POST':
         score = 0
         name = request.session.get('quiz_name', 'Anonymous')  # Get the name from the session
         usn = request.session.get('usn')  # Get the USN from the session
+        time_taken = request.POST.get('time_taken')  # Get the time taken from the form
+        department = request.session.get('department')
+        college_email = request.session.get('college_email')
 
-        # Calculate the score
-        for question in Question.objects.order_by('?')[:10].prefetch_related('answers'):
-            selected_answer_id = request.POST.get(f'question_{question.id}')
-            if selected_answer_id:
-                answer = question.answers.get(id=selected_answer_id)
-                if answer.is_correct:
-                    score += 1
+        # Retrieve question IDs from session
+        question_ids = request.session.get('quiz_questions', [])
         
-        # Store the quiz result with the name and score
-        QuizResult.objects.create(name=name, usn=usn, score=score)
+        # Create a new QuizResult object to store results
+        quiz_result = QuizResult.objects.create(
+            name=name,
+            usn=usn,
+            score=0,  # Initially set score to 0, will update later
+            time_taken=time_taken,
+            department=department,
+            college_email=college_email
+        )
 
-        return render(request, 'quiz/result.html', {'score': score})
-    
-    return redirect('quiz')  # Redirect to quiz if not a POST request
+        # Calculate the score and save attempts
+        for question_id in question_ids:
+            question = Question.objects.get(id=question_id)
+            selected_answer_id = request.POST.get(f'question-{question.id}')
+            if selected_answer_id:
+                try:
+                    answer = question.answers.get(id=selected_answer_id)
+                    Attempt.objects.create(quiz_result=quiz_result, question=question, selected_answer=answer)
+
+                    if answer.is_correct:
+                        score += 1
+                except answer.DoesNotExist:
+                    continue  # If the answer doesn't exist, skip it
+
+        # Update the score for the quiz result
+        quiz_result.score = score
+        quiz_result.save()
+
+        return render(request, 'quiz/result.html', {'score': score, 'time_taken': time_taken, 'attempts': quiz_result.attempts.all()})
+
+    return redirect('start_quiz')  # Redirect to start_quiz if not a POST request
