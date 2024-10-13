@@ -15,16 +15,17 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+import environ
+env = environ.Env()
 
-# SECURITY WARNING: keep the secret key used in production secret!
+environ.Env.read_env()
+
 SECRET_KEY = 'django-insecure-79dlek4*r-2fx*x6njk#togad3@u_#-e533y_((1w9^@kj9!sb'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ["*",".vercel.app","dsaquizpakka.vercel.app"] 
+DEBUG = False
+
+ALLOWED_HOSTS = ["*",".vercel.app","dsa-quiz.vercel.app"] 
 
 # Application definition
 INSTALLED_APPS = [
@@ -72,11 +73,21 @@ WSGI_APPLICATION = 'quiz.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+'''
+
+import dj_database_url
+
+DATABASES = {
+
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
 # Password validation
