@@ -80,6 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    
 }
 '''
 
@@ -87,7 +88,12 @@ import dj_database_url
 
 DATABASES = {
 
-    'default': dj_database_url.parse(env('DATABASE_URL'))
+    'default': dj_database_url.parse(env('DATABASE_URL')),
+
+    'second': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Password validation
