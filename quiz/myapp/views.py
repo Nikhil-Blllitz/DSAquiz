@@ -14,18 +14,24 @@ def start_quiz(request):
             error_message = "This USN has already been used. Please enter a unique USN."
             return render(request, 'quiz/start_quiz.html', {'error_message': error_message})
 
-        request.session['quiz_name'] = name  # Store the name in the session
-        request.session['usn'] = usn  # Store the USN in the session
-        request.session['department'] = department  # Store department in the session
-        request.session['college_email'] = college_email  # Store college email in the session
+        # Store quiz data in the session
+        request.session['quiz_name'] = name
+        request.session['usn'] = usn
+        request.session['department'] = department
+        request.session['college_email'] = college_email
         return redirect('quiz')  # Redirect to the quiz view
 
     return render(request, 'quiz/start_quiz.html')  # Render the start quiz form
 
 
 def quiz_view(request):
-    questions = Question.objects.order_by('?')[:10].prefetch_related('answers')
-    request.session['quiz_questions'] = [q.id for q in questions]  # Store question IDs in session
+    # Check if the quiz has already been taken by the user in this session
+    if 'quiz_questions' in request.session:
+        questions = Question.objects.filter(id__in=request.session['quiz_questions']).prefetch_related('answers')
+    else:
+        questions = Question.objects.order_by('?')[:10].prefetch_related('answers')
+        request.session['quiz_questions'] = [q.id for q in questions]  # Store question IDs in session
+
     return render(request, 'quiz/quiz.html', {'questions': questions})
 
 
@@ -69,6 +75,24 @@ def submit_quiz(request):
         quiz_result.score = score
         quiz_result.save()
 
-        return render(request, 'quiz/result.html', {'score': score, 'time_taken': time_taken, 'attempts': quiz_result.attempts.all()})
+        # Clear the session to prevent re-submission
+        request.session.pop('quiz_questions', None)  # Remove quiz questions from the session
+        request.session.pop('quiz_name', None)  # Remove the name from the session
+        request.session.pop('usn', None)  # Remove the USN from the session
+        request.session.pop('department', None)  # Remove department from the session
+        request.session.pop('college_email', None)  # Remove college email from the session
+
+        # Redirect to the result view
+        return redirect('result', quiz_result_id=quiz_result.id)  # Redirect to result view with quiz_result ID
 
     return redirect('start_quiz')  # Redirect to start_quiz if not a POST request
+
+
+def result_view(request, quiz_result_id):
+    # Fetch the quiz result using the ID
+    quiz_result = QuizResult.objects.get(id=quiz_result_id)
+    return render(request, 'quiz/result.html', {
+        'score': quiz_result.score,
+        'time_taken': quiz_result.time_taken,
+        'attempts': quiz_result.attempts.all(),
+    })
